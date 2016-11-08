@@ -8,6 +8,8 @@
  * 
  */
 
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -100,6 +102,21 @@ namespace Piranha
                 var bytes = crypto.ComputeHash(encoding.GetBytes(str));
                 return Convert.ToBase64String(bytes);
             }
+        }
+
+        public static T GetModel<T>(this IDistributedCache cache, string key) {
+            var bytes = cache.Get(typeof(T).Name + key);
+            if (bytes != null) {
+                var str = Encoding.Unicode.GetString(bytes);
+                return JsonConvert.DeserializeObject<T>(str);
+            }
+            return default(T);
+        }
+
+        public static void SetModel<T>(this IDistributedCache cache, string key, T value) {
+            var str = JsonConvert.SerializeObject(value);
+            var bytes = Encoding.Unicode.GetBytes(str);
+            cache.Set(typeof(T).Name + key, bytes);
         }
     }
 }

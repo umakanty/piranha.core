@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.IO;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
@@ -41,11 +42,36 @@ namespace Piranha.Azure
             container = client.GetContainerReference(containerName);
         }
 
+        public bool Delete(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Disposes the current session.
         /// </summary>
         public void Dispose() {
             GC.SuppressFinalize(this);
+        }
+
+        public bool Get(string id, ref byte[] bytes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Get(string id, ref Stream stream)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Put(string id, string contentType, byte[] bytes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Put(string id, string contentType, ref Stream stream)
+        {
+            throw new NotImplementedException();
         }
     }
 }
